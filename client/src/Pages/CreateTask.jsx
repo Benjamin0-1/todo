@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
-import axiosInstance from '../api/axiosInstance';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import 'react-toastify/dist/ReactToastify.css';
-import axios from 'axios'; // VERIFICAR.
-
+import axios from 'axios';
 
 function CreateTask() {
     const [task, setTask] = useState({
@@ -12,14 +9,12 @@ function CreateTask() {
         description: "",
     });
 
-
     const handleChange = (e) => {
         setTask({
             ...task,
             [e.target.name]: e.target.value,
         });
     };
-
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -29,7 +24,7 @@ function CreateTask() {
             setTask({
                 title: "",
                 description: "",
-            }); 
+            });
         } catch (error) {
             toast.error("Error creating task. Please try again.");
             console.error("Error creating task:", error);
@@ -37,39 +32,44 @@ function CreateTask() {
     };
 
     return (
-        <div className="p-6 max-w-md mx-auto bg-white rounded-md shadow-md">
-            <h1 className="text-xl font-semibold mb-4">Create Task</h1>
-            <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                    <label htmlFor="title" className="block text-sm font-medium text-gray-700">Title</label>
-                    <input
-                        type="text"
-                        id="title"
-                        name="title"
-                        value={task.title}
-                        onChange={handleChange}
-                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
-                        required
-                    />
-                </div>
-                <div>
-                    <label htmlFor="description" className="block text-sm font-medium text-gray-700">Description</label>
-                    <textarea
-                        id="description"
-                        name="description"
-                        value={task.description}
-                        onChange={handleChange}
-                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
-                        rows="4"
-                    />
-                </div>
-                <button
-                    type="submit"
-                    className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
-                >
-                    Create Task
-                </button>
-            </form>
+        <div className="flex items-center justify-center min-h-screen bg-gray-100">
+            <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-8">
+                <h1 className="text-3xl font-semibold text-gray-800 mb-6">Create Task</h1>
+                <form onSubmit={handleSubmit} className="space-y-6">
+                    <div className="flex flex-col">
+                        <label htmlFor="title" className="text-lg font-medium text-gray-700 mb-2">Title</label>
+                        <input
+                            type="text"
+                            id="title"
+                            name="title"
+                            value={task.title}
+                            onChange={handleChange}
+                            className="p-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 ease-in-out"
+                            placeholder="Enter task title"
+                            required
+                        />
+                    </div>
+                    <div className="flex flex-col">
+                        <label htmlFor="description" className="text-lg font-medium text-gray-700 mb-2">Description</label>
+                        <textarea
+                            id="description"
+                            name="description"
+                            value={task.description}
+                            onChange={handleChange}
+                            className="p-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 ease-in-out"
+                            rows="6"
+                            placeholder="Enter task description"
+                        />
+                    </div>
+                    <button
+                        type="submit"
+                        className="w-full py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition duration-200 ease-in-out"
+                    >
+                        Create Task
+                    </button>
+                </form>
+                <ToastContainer />
+            </div>
         </div>
     );
 }

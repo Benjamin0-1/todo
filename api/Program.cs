@@ -8,24 +8,24 @@ using Microsoft.Extensions.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Configure CORS
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigin",
         builder =>
         {
-            builder.WithOrigins("http://localhost:5173", "http://localhost:4200") // Add other possible ports
+            builder.WithOrigins("http://localhost:5173", "http://localhost:4200") 
                    .AllowAnyMethod()
                    .AllowAnyHeader();
         });
 });
 
-// Configure Entity Framework
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"),
@@ -42,7 +42,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors("AllowSpecificOrigin"); // Ensure CORS is applied before authorization and redirection
+app.UseCors("AllowSpecificOrigin"); 
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
