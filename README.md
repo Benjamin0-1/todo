@@ -2,6 +2,11 @@
 
 Task Tracker is a full stack application that aims to improve people's lives by allowing them to keep track of their day to day tasks.
 
+<img width="1396" alt="task1" src="https://github.com/user-attachments/assets/fab8f08d-4717-4889-87d4-48f54764ed03">
+<img width="1398" alt="task2" src="https://github.com/user-attachments/assets/2b8bd17b-15bb-4016-ba3f-ae2e18dc654b">
+<img width="1403" alt="task3" src="https://github.com/user-attachments/assets/b30c1c98-769d-4e97-a2a5-52d9e6e1416a">
+
+
 ## Features
 
 - Task Management: Create, update, and delete tasks.
