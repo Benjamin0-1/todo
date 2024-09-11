@@ -1,23 +1,36 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { AppBar, Toolbar, Typography, Button, Container } from "@mui/material";
 
 function NavBar() {
     return (
-        <nav className="bg-blue-500 p-4">
-            <div className="container mx-auto flex justify-between items-center">
-                <Link to="/" className="text-white font-bold text-lg">
-                    Task Tracker
-                </Link>
-                <div>
-                    <Link
+        <AppBar position="static" color="primary">
+            <Toolbar>
+                <Container maxWidth="lg" sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <Typography variant="h6" component={Link} to="/" sx={{ color: 'white', textDecoration: 'none' }}>
+                        Task Tracker
+                    </Typography>
+                    <Button
+                        component={Link}
                         to="/create-task"
-                        className="text-white font-semibold px-4 py-2 rounded-md bg-blue-700"
+                        variant="contained"
+                        color="secondary"
+                        sx={{ textTransform: 'none' }}
                     >
                         Create Task
-                    </Link>
-                </div>
-            </div>
-        </nav>
+                    </Button>
+                    <Button
+                        component={Link}
+                        to="/home"
+                        variant="contained"
+                        color="secondary"
+                        sx={{ textTransform: 'none' }}
+                    >
+                        Home
+                    </Button>
+                </Container>
+            </Toolbar>
+        </AppBar>
     );
 }
 

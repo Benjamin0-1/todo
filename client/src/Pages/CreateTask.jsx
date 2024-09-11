@@ -2,6 +2,14 @@ import React, { useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
+import {
+    Container,
+    Typography,
+    TextField,
+    Button,
+    Paper,
+    Box,
+} from "@mui/material";
 
 function CreateTask() {
     const [task, setTask] = useState({
@@ -32,45 +40,51 @@ function CreateTask() {
     };
 
     return (
-        <div className="flex items-center justify-center min-h-screen bg-gray-100">
-            <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-8">
-                <h1 className="text-3xl font-semibold text-gray-800 mb-6">Create Task</h1>
-                <form onSubmit={handleSubmit} className="space-y-6">
-                    <div className="flex flex-col">
-                        <label htmlFor="title" className="text-lg font-medium text-gray-700 mb-2">Title</label>
-                        <input
-                            type="text"
+        <Container maxWidth="sm" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}>
+            <Paper sx={{ p: 4, width: '100%', borderRadius: 2, boxShadow: 3 }}>
+                <Typography variant="h4" gutterBottom>
+                    Create Task
+                </Typography>
+                <form onSubmit={handleSubmit} noValidate>
+                    <Box mb={3}>
+                        <TextField
+                            fullWidth
                             id="title"
                             name="title"
+                            label="Title"
                             value={task.title}
                             onChange={handleChange}
-                            className="p-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 ease-in-out"
+                            variant="outlined"
                             placeholder="Enter task title"
                             required
                         />
-                    </div>
-                    <div className="flex flex-col">
-                        <label htmlFor="description" className="text-lg font-medium text-gray-700 mb-2">Description</label>
-                        <textarea
+                    </Box>
+                    <Box mb={3}>
+                        <TextField
+                            fullWidth
                             id="description"
                             name="description"
+                            label="Description"
                             value={task.description}
                             onChange={handleChange}
-                            className="p-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 ease-in-out"
-                            rows="6"
+                            variant="outlined"
                             placeholder="Enter task description"
+                            multiline
+                            rows={6}
                         />
-                    </div>
-                    <button
+                    </Box>
+                    <Button
                         type="submit"
-                        className="w-full py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition duration-200 ease-in-out"
+                        variant="contained"
+                        color="primary"
+                        fullWidth
                     >
                         Create Task
-                    </button>
+                    </Button>
                 </form>
-                <ToastContainer />
-            </div>
-        </div>
+                <ToastContainer autoClose={1500}/>
+            </Paper>
+        </Container>
     );
 }
 
