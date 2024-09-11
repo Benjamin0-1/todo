@@ -14,6 +14,10 @@ import {
     CardActions,
     Grid,
     Paper,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
     Box,
     Snackbar,
 } from "@mui/material";
@@ -29,6 +33,7 @@ function Home() {
         isCompleted: false
     });
     const [editing, setEditing] = useState(false);
+    const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
 
     useEffect(() => {
         const fetchTasks = async () => {
@@ -39,22 +44,24 @@ function Home() {
                 console.log("Error fetching tasks:", error);
                 toast.error("Error fetching tasks. Please try again.");
             }
-        }
+        };
         fetchTasks();
     }, []);
 
-  
-    const handleDelete = async (id) => {
+    const handleDelete = async () => {
         try {
-            await axios.delete(`http://localhost:5155/api/task/${id}`);
-            setTasks(tasks.filter((task) => task.id !== id));
-            toast.success("Task deleted successfully!");
+            if (taskToDelete !== null) {
+                await axios.delete(`http://localhost:5155/api/task/${taskToDelete}`);
+                setTasks(tasks.filter((task) => task.id !== taskToDelete));
+                toast.success("Task deleted successfully!");
+            }
+            setOpenConfirmDialog(false);
         } catch (error) {
             console.error("Error deleting task:", error);
             toast.error("Error deleting task. Please try again.");
+            setOpenConfirmDialog(false);
         }
     };
-
 
     const handleEdit = async (e) => {
         e.preventDefault();
@@ -77,7 +84,6 @@ function Home() {
         }
     };
 
-
     const startEdit = (task) => {
         setTaskToEdit({
             id: task.id,
@@ -94,15 +100,20 @@ function Home() {
                 Tasks
             </Typography>
 
-            <Typography variant="h6" gutterBottom>
-                Total tasks: {tasks.length}
-            </Typography>
+            {tasks.length > 0 ? (
+                <Typography variant="h6" gutterBottom>
+                    Total tasks: {tasks.length}
+                </Typography>
+            ) : (
+                <Typography variant="h6" gutterBottom>
+                    No tasks found
+                </Typography>
+            )}
 
-            {editing && (
-                <Paper sx={{ p: 3, mb: 4 }}>
-                    <Typography variant="h6" gutterBottom>
-                        Edit Task
-                    </Typography>
+            {/* Edit Task Dialog */}
+            <Dialog open={editing} onClose={() => setEditing(false)}>
+                <DialogTitle>Edit Task</DialogTitle>
+                <DialogContent>
                     <form onSubmit={handleEdit}>
                         <TextField
                             fullWidth
@@ -138,17 +149,37 @@ function Home() {
                             }
                             label="Completed"
                         />
-                        <Button
-                            type="submit"
-                            variant="contained"
-                            color="primary"
-                            sx={{ mt: 2 }}
-                        >
-                            Update Task
-                        </Button>
+                        <DialogActions>
+                            <Button
+                                type="submit"
+                                variant="contained"
+                                color="primary"
+                            >
+                                Update Task
+                            </Button>
+                            <Button onClick={() => setEditing(false)} color="secondary">
+                                Cancel
+                            </Button>
+                        </DialogActions>
                     </form>
-                </Paper>
-            )}
+                </DialogContent>
+            </Dialog>
+
+            {/* Confirm Delete Dialog */}
+            <Dialog open={openConfirmDialog} onClose={() => setOpenConfirmDialog(false)}>
+                <DialogTitle>Confirm Deletion</DialogTitle>
+                <DialogContent>
+                    <Typography>Are you sure you want to delete this task?</Typography>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setOpenConfirmDialog(false)} color="secondary">
+                        Cancel
+                    </Button>
+                    <Button onClick={handleDelete} color="error">
+                        Delete
+                    </Button>
+                </DialogActions>
+            </Dialog>
 
             <Grid container spacing={3}>
                 {tasks.map((task) => (
@@ -170,7 +201,10 @@ function Home() {
                                 <Button
                                     size="small"
                                     color="error"
-                                    onClick={() => handleDelete(task.id)}
+                                    onClick={() => {
+                                        setTaskToDelete(task.id);
+                                        setOpenConfirmDialog(true);
+                                    }}
                                 >
                                     Delete
                                 </Button>
@@ -180,7 +214,7 @@ function Home() {
                 ))}
             </Grid>
 
-            <ToastContainer autoClose={1500}/>
+            <ToastContainer autoClose={1500} />
         </Container>
     );
 }

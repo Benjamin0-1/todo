@@ -7,9 +7,7 @@ function NavBar() {
         <AppBar position="static" color="primary">
             <Toolbar>
                 <Container maxWidth="lg" sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <Typography variant="h6" component={Link} to="/" sx={{ color: 'white', textDecoration: 'none' }}>
-                        Task Tracker
-                    </Typography>
+                   
                     <Button
                         component={Link}
                         to="/create-task"
